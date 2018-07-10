@@ -11,6 +11,16 @@
         MinWidth="250"
         Title="Color Viewer" 
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="CheckBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=AlphaCheckbox, Path=IsChecked}"
+                        Value="False">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <StackPanel Margin="5,5,5,5">
             <StackPanel Orientation="Horizontal">
@@ -29,55 +39,62 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0" Grid.Row="0">
-                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=IsAlphaSliderEnable, Mode=OneWayToSource}"/>
                     </Grid>
                     <Grid Grid.Column="0" Grid.Row="1">
-                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=IsRedSliderEnable, Mode=OneWayToSource}"/>
                     </Grid>
                     <Grid Grid.Column="0" Grid.Row="2">
-                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=IsGreenSliderEnable, Mode=OneWayToSource}"/>
                     </Grid>
                     <Grid Grid.Column="0" Grid.Row="3">
-                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path=IsBlueSliderEnable, Mode=OneWayToSource}"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Grid.Row="0">
                         <Label VerticalAlignment="Center">Alpha:</Label>
-                        <TextBlock Margin ="40,0" VerticalAlignment="Center">100</TextBlock>
+                        <TextBlock Margin ="45,0" VerticalAlignment="Center" Text="{Binding CurrentAlpha}"/>
                     </Grid>
                     <Grid Grid.Column="1" Grid.Row="1">
                         <Label VerticalAlignment="Center">Red:</Label>
-                        <TextBlock Margin ="40,0" VerticalAlignment="Center">0</TextBlock>
+                        <TextBlock Margin ="45,0" VerticalAlignment="Center" Text="{Binding CurrentRedColor}"/>
                     </Grid>
                     <Grid Grid.Column="1" Grid.Row="2">
-                        <Label  VerticalAlignment="Center">Blue:</Label>
-                        <TextBlock Margin ="40,0"  VerticalAlignment="Center">0</TextBlock>
+                        <Label VerticalAlignment="Center">Green:</Label>
+                        <TextBlock Margin ="45,0" VerticalAlignment="Center" Text="{Binding CurrentGreenColor}"/>
                     </Grid>
                     <Grid Grid.Column="1" Grid.Row="3">
-                        <Label VerticalAlignment="Center">Green:</Label>
-                        <TextBlock Margin ="40,0" VerticalAlignment="Center" Text="a"/>
+                        <Label  VerticalAlignment="Center">Blue:</Label>
+                        <TextBlock Margin ="45,0"  VerticalAlignment="Center" Text="{Binding CurrentBlueColor}"/>
                     </Grid>
 
                     <Grid Grid.Column="2" Grid.Row="0">
-                        <Slider Maximum="255"  VerticalAlignment="Center"></Slider>
+                        <Slider Maximum="255"  VerticalAlignment="Center" IsEnabled="{Binding IsAlphaSliderEnable}" Value="{Binding CurrentAlpha}"/>
                     </Grid>
                     <Grid Grid.Column="2" Grid.Row="1">
-                        <Slider Maximum="255"  VerticalAlignment="Center"></Slider>
+                        <Slider Maximum="255"  VerticalAlignment="Center" IsEnabled="{Binding IsRedSliderEnable}" Value="{Binding CurrentRedColor}"/>
                     </Grid>
                     <Grid Grid.Column="2" Grid.Row="2">
-                        <Slider Maximum="255"  VerticalAlignment="Center"></Slider>
+                        <Slider Maximum="255" VerticalAlignment="Center" IsEnabled="{Binding IsGreenSliderEnable}" Value="{Binding CurrentGreenColor}"/>
                     </Grid>
                     <Grid Grid.Column="2" Grid.Row="3">
-                        <Slider Maximum="255"  VerticalAlignment="Center" IsSnapToTickEnabled="True"></Slider>
+                        <Slider Maximum="255"  VerticalAlignment="Center" IsEnabled="{Binding IsBlueSliderEnable}" Value="{Binding CurrentBlueColor}"/>
                     </Grid>
                 </Grid>
 
-                <Grid Margin="5,0,0,0" Width="100" Height="150" Background="AliceBlue"/>
+                <Grid Margin="5,0,0,0" Width="100" Height="150" Background="{Binding CurrentColor}"/>
             </StackPanel>
 
             <Button Height="20" Width="70" Margin="0,5,0,5" HorizontalAlignment="Left">Add</Button>
 
-            <Grid Width="790" Height="230" Margin="0,0,0,0" HorizontalAlignment="Left" Background="Yellow" >
+            <Grid Width="790" Height="230" Margin="0,0,0,0" HorizontalAlignment="Left" >
+                <ListBox ItemsSource="{Binding SavedColors}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="ColorInHex"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </StackPanel>
     </Grid>
