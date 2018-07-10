@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ColorViewer.ModelViewers
+namespace ColorViewer.Models
 {
     internal class MyColor
     {
@@ -19,6 +19,14 @@ namespace ColorViewer.ModelViewers
             blue = 0;
             green = 0;
             red = 0;
+        }
+
+        public MyColor(MyColor color)
+        {
+            alpha = color.Alpha;
+            blue = color.Blue;
+            green = color.Green;
+            red = color.Red;
         }
 
         public int Alpha
@@ -45,6 +53,31 @@ namespace ColorViewer.ModelViewers
             }
         }
 
+        public string ColorInHex
+        {
+            get
+            {
+                StringBuilder hexValue = new StringBuilder("#");
+                string[] colorsInfo ={
+                    alpha.ToString("X"),
+                    red.ToString("X"),
+                    green.ToString("X"),
+                    blue.ToString("X")
+                };
+
+                for (int i = 0; i < colorsInfo.Length; i++)
+                {
+
+                    if (colorsInfo[i].Length < 2)
+                    {
+                        hexValue.Insert(hexValue.Length, "0");
+                    }
+                    hexValue.Insert(hexValue.Length, colorsInfo[i]);
+                }
+                return hexValue.ToString();
+            }
+        }
+
         public int Green
         {
             get { return green; }
@@ -66,43 +99,6 @@ namespace ColorViewer.ModelViewers
                 {
                     red = value;
                 }
-            }
-        }
-
-        public string ColorInHex
-        {
-            get
-            {
-                string hexValue = "#";
-                string alphaValue = alpha.ToString("X");
-
-                if(alphaValue.Length < 2)
-                {
-                    hexValue += "0";
-                }
-                hexValue += alphaValue;
-
-                string redValue = red.ToString("X");
-                if (redValue.Length < 2)
-                {
-                    hexValue += "0";
-                }
-                hexValue += redValue;
-
-                string greenValue = green.ToString("X");
-                if (greenValue.Length < 2)
-                {
-                    hexValue += "0";
-                }
-                hexValue += greenValue;
-
-                string blueValue = blue.ToString("X");
-                if (blueValue.Length < 2)
-                {
-                    hexValue += "0";
-                }
-                hexValue += blueValue;
-                return hexValue;
             }
         }
     }

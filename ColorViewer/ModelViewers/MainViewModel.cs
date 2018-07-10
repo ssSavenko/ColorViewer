@@ -1,33 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Collections;
-using System.Collections.Generic;
+﻿using ColorViewer.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace ColorViewer.ModelViewers
 {
     internal class MainViewModel : INotifyPropertyChanged
     {
-        private MyColor currentColor;
+        private MyColorWithId currentColor;
         private bool isAlphaSliderEnable;
         private bool isBlueSliderEnable;
         private bool isGreenSliderEnable;
         private bool isRedSliderEnable;
-        private ObservableCollection<MyColor> SavedColors;
+        private ObservableCollection<MyColorWithId> savedColors;
 
         public MainViewModel()
         {
-            currentColor = new MyColor();
+            currentColor = new MyColorWithId(0);
             currentColor.Alpha = 255;
-            SavedColors = new ObservableCollection<MyColor>();
-            SavedColors.Add(currentColor);
+            savedColors = new ObservableCollection<MyColorWithId>();
+            savedColors.Add(new MyColorWithId(0, currentColor));
+        }
+
+        public ObservableCollection<MyColorWithId> SavedColors
+        {
+            get { return savedColors; }
+        }
+
+        public bool IsAddButtonEnable
+        {
+            get
+            {
+                bool isButtonEnable = true;
+                for (int i = 0; i < savedColors.Count; i++)
+                {
+                    if (savedColors[i].Equals(currentColor))
+                    {
+                        isButtonEnable = false;
+                    }
+                }
+                return isButtonEnable;
+            }
         }
 
         public bool IsAlphaSliderEnable
@@ -75,8 +87,8 @@ namespace ColorViewer.ModelViewers
             {
                 currentColor.Alpha = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(CurrentAlpha)));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAddButtonEnable)));
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(currentColor)));
-                string mu = currentColor.ColorInHex;
             }
         }
 
@@ -86,6 +98,7 @@ namespace ColorViewer.ModelViewers
             set
             {
                 currentColor.Blue = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAddButtonEnable)));
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(CurrentBlueColor)));
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(currentColor)));
             }
@@ -102,6 +115,7 @@ namespace ColorViewer.ModelViewers
             set
             {
                 currentColor.Green = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAddButtonEnable)));
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(CurrentGreenColor)));
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(currentColor)));
             }
@@ -113,6 +127,7 @@ namespace ColorViewer.ModelViewers
             set
             {
                 currentColor.Red = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAddButtonEnable)));
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(CurrentRedColor)));
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(currentColor)));
             }

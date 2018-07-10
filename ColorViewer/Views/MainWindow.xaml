@@ -85,13 +85,17 @@
                 <Grid Margin="5,0,0,0" Width="100" Height="150" Background="{Binding CurrentColor}"/>
             </StackPanel>
 
-            <Button Height="20" Width="70" Margin="0,5,0,5" HorizontalAlignment="Left">Add</Button>
+            <Button Height="20" Width="70" Margin="0,5,0,5" HorizontalAlignment="Left" IsEnabled="{Binding IsAddButtonEnable}" Click="{Binding AddButtonClicked}">Add</Button>
 
             <Grid Width="790" Height="230" Margin="0,0,0,0" HorizontalAlignment="Left" >
                 <ListBox ItemsSource="{Binding SavedColors}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="ColorInHex"/>
+                            <StackPanel Orientation="Horizontal" Height="50">
+                                <TextBlock Margin="0,17,0,0" Text="{Binding ColorInHex}"/>
+                                <TextBlock Margin="10,0,0,0" Width="600" Height="50" Background="{Binding ColorInHex}"/>
+                                <Button Margin="5,5,0,0" Uid="{Binding id}" Width="100" Height="25">Delete</Button>
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
