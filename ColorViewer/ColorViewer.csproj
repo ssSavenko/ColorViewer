@@ -65,8 +65,7 @@
     <Compile Include="Models\MyColor.cs" />
     <Compile Include="Models\MyColorWithId.cs" />
     <Compile Include="ModelViewers\Command.cs" />
-    <Compile Include="ModelViewers\DelegateAddCommand.cs" />
-    <Compile Include="ModelViewers\ICommand.cs" />
+    <Compile Include="ModelViewers\DelegateCommand.cs" />
     <Compile Include="ModelViewers\MainViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

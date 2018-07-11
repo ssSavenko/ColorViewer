@@ -1,11 +1,13 @@
 ﻿using ColorViewer.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace ColorViewer.ModelViewers
 {
     internal class MainViewModel : INotifyPropertyChanged
     {
+        private Command addNewListElement;
         private MyColorWithId currentColor;
         private bool isAlphaSliderEnable;
         private bool isBlueSliderEnable;
@@ -15,15 +17,11 @@ namespace ColorViewer.ModelViewers
 
         public MainViewModel()
         {
+            addNewListElement = new DelegateCommand(AddColor);
             currentColor = new MyColorWithId(0);
             currentColor.Alpha = 255;
             savedColors = new ObservableCollection<MyColorWithId>();
             savedColors.Add(new MyColorWithId(0, currentColor));
-        }
-
-        public ObservableCollection<MyColorWithId> SavedColors
-        {
-            get { return savedColors; }
         }
 
         public bool IsAddButtonEnable
@@ -132,12 +130,25 @@ namespace ColorViewer.ModelViewers
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(currentColor)));
             }
         }
+        
+        public ObservableCollection<MyColorWithId> SavedColors
+        {
+            get { return savedColors; }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(this, e);
+        }
+
+        public ICommand AddNewListElement() => addNewListElement;
+
+        public void AddColor()
+        {
+            savedColors.Add(currentColor);
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAddButtonEnable)));
         }
     }
 }
